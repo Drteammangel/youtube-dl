@@ -344,7 +344,7 @@ class IqiyiIE(InfoExtractor):
         # Sometimes there are playlist links in individual videos, so treat it
         # as a single video first
         tvid = self._search_regex(
-            r'data-(?:player|shareplattrigger)-tvid\s*=\s*[\'"](\d+)', webpage, 'tvid', default=None)
+            [r'data-(?:player|shareplattrigger)-tvid\s*=\s*[\'"](\d+)', r'tvId"?:(\d+)'], webpage, 'tvid', default=None)
         if tvid is None:
             playlist_result = self._extract_playlist(webpage)
             if playlist_result:
@@ -352,7 +352,7 @@ class IqiyiIE(InfoExtractor):
             raise ExtractorError('Can\'t find any video')
 
         video_id = self._search_regex(
-            r'data-(?:player|shareplattrigger)-videoid\s*=\s*[\'"]([a-f\d]+)', webpage, 'video_id')
+            [r'data-(?:player|shareplattrigger)-videoid\s*=\s*[\'"]([a-f\d]+)', r'"vid":"(.*?)"'], webpage, 'video_id')
 
         formats = []
         for _ in range(5):
